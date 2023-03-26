@@ -11,6 +11,35 @@ import * as THREE from "three";
 import { OrbitControls } from "https://unpkg.com/three@0.133.1/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "https://unpkg.com/three@0.133.1/examples/jsm/loaders/GLTFLoader.js";
 
+
+let saveObj = {};
+
+function downloadCSV(args) {
+  var data, filename, link;
+
+var csv = 'data:text/json;charset=utf-8,' + JSON.stringify(saveObj);
+
+/*        var csv = {
+      data: stockData
+  };
+  if (csv == null) return;
+*/
+  filename = args.filename || 'export.json';
+
+      //  if (!csv.match(/^data:text\/csv/i)) {
+      //     csv = 'data:text/json;charset=utf-8,' + csv;
+      // }
+  data = encodeURI(csv);
+
+  link = document.createElement('a');
+  link.setAttribute('href', data);
+  link.setAttribute('download', filename);
+  link.click();
+}
+
+const button = document.getElementById("download")
+button.addEventListener("click", downloadCSV)
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 let render_w = (window.innerWidth * 2) / 3; //640
 const render_h = (render_w / 640) * 480; //480
@@ -85,7 +114,7 @@ let model,
   skeleton_helper;
 let mesh_joint, mesh_surface;
 const loader = new GLTFLoader();
-loader.load("../model/Xbot.glb", function (gltf) {
+loader.load("../Model/Xbot.glb", function (gltf) {
   model = gltf.scene;
   scene.add(model);
   let bones = [];
@@ -101,11 +130,11 @@ loader.load("../model/Xbot.glb", function (gltf) {
   });
 
   bones.forEach(function (bone) {
-    console.log(bone.name);
+    // console.log(bone.name);
   });
 
   skeleton = new THREE.Skeleton(bones);
-
+  // saveObj.skeleton = skeleton;
   skeleton_helper = new THREE.SkeletonHelper(model);
   skeleton_helper.visible = true;
 
@@ -288,6 +317,7 @@ function computeR(A, B) {
 }
 
 function onResults2(results) {
+  saveObj.res = results
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(

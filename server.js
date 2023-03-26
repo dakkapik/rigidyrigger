@@ -2,23 +2,24 @@
 const express = require('express');
 const cors = require("cors");
 const path = require("path");
-const bodyParser = require("body-parser");
 const moCap = require("./routes/moCap");
 const app = express();
 
-app.use(bodyParser.json());
+// const { Client } = require("pg");
 
-const Sequelize = require("sequelize-cockroachdb")
+// const client = new Client("postgresql://dakka:CestLaVies13%40@loyal-vole-9774.7tt.cockroachlabs.cloud:26257/defaultdb?application_name=ccloud&sslmode=verify-full");
 
-
-// const sequelize = new Sequelize({
-//     dialect: "postgres",
-//     username: "dakkapik86",
-//     password: "V8XI_3qUh25xVlVp1Gxu8A",
-//     host: "speedy-cuscus-9754.7tt.cockroachlabs.cloud",
-//     port: 26257,
-//     database: "tigerclaw"
-// })
+// (async () => {
+//   await client.connect();
+//   try {
+//     const results = await client.query("SELECT NOW()");
+//     console.log(results);
+//   } catch (err) {
+//     console.error("error executing query:", err);
+//   } finally {
+//     client.end();
+//   }
+// })();
 
 const PORT = process.env.PORT || 8080;
 const host = '127.0.0.1'
@@ -26,8 +27,7 @@ const host = '127.0.0.1'
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const publicString = path.join(__dirname, "public")
-app.use(express.static(publicString));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", moCap);
 

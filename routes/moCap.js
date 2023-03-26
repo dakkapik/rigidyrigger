@@ -4,8 +4,13 @@ const path = require("path")
 
 router.get('/', (req, res) => {
   let pathString = path.join(__dirname,'../public','moCap.html')
-  console.log(pathString)
   res.sendFile(pathString)
 })
+
+router.get('/post', (req, res) => {
+    let pathString = path.join(__dirname,'../public','postView.html')
+    res.sendFile(pathString)
+})
+  
 
 module.exports = router;
