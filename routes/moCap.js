@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require("path")
 
 router.get('/', (req, res) => {
-  let pathString = path.join(__dirname,'../addons','moCap.html')
+  let pathString = path.join(__dirname,'../public','moCap.html')
   console.log(pathString)
   res.sendFile(pathString)
 })
